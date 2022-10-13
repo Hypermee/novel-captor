@@ -1,6 +1,12 @@
-import { app, shell, BrowserWindow } from 'electron'
 import * as path from 'path'
+import Store from 'electron-store'
+import { TrayIcon, initTray } from './common'
+import { app, shell, nativeImage, BrowserWindow } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+
+let icon = nativeImage.createFromDataURL(TrayIcon);
+
+Store.initRenderer()
 
 function createWindow(): void {
   // Create the browser window.
@@ -9,16 +15,17 @@ function createWindow(): void {
     height: 670,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux'
-      ? {
-          icon: path.join(__dirname, '../../build/icon.png')
-        }
-      : {}),
+    icon: path.join(__dirname, '../../public/favicon.ico'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
+
+  // 初始化托盘
+  initTray({
+    icon,
+  }, mainWindow);
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

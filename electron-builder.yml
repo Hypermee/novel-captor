@@ -1,7 +1,7 @@
 appId: com.electron.app
 productName: novelcaptor
 directories:
-  buildResources: build
+  buildResources: public
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -10,7 +10,7 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - '**/*.{node,dll}'
-afterSign: build/notarize.js
+afterSign: public/_/notarize.js
 win:
   executableName: novelcaptor
 nsis:
@@ -19,7 +19,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
-  entitlementsInherit: build/entitlements.mac.plist
+  entitlementsInherit: public/_/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
